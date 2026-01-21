@@ -1,0 +1,30 @@
+FLOWER IMAGE WEB SCRAPING LOG
+============================================================
+
+Scraping Date: 2026-01-17 17:32:06
+Source: GitHub Repository
+Repository URL: https://github.com/devang1010/flower-images-dataset
+Method: GitHub REST API v3
+
+Flower Types:
+------------------------------------------------------------
+Sunflower: 733 images
+Daisy: 764 images
+Dandelion: 1000 images
+Rose: 784 images
+Tulip: 984 images
+
+Total Images: 4265
+
+============================================================
+Technical Details:
+- API: GitHub REST API v3
+- Authentication: None (public repository)
+- Rate Limit: 60 requests/hour (unauthenticated)
+- Download Method: Direct raw content URLs
+
+Legal & Ethical:
+- All images from public GitHub repository
+- Used for educational purposes only
+- Part of AI/ML course project
+- Proper attribution to original sources
