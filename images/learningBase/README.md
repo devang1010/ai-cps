@@ -1,7 +1,7 @@
 # Flower Classification - Learning Base Image
 
 ## Ownership
-**Created by:** [Your Name] & [Partner Name]  
+**Created by:** Krish Manvar & Devang Thaker  
 **University:** University of Potsdam  
 **Department:** Junior Chair for Business Information Science, esp. AI-based Application Systems
 
