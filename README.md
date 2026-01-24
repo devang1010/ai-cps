@@ -21,6 +21,7 @@ Pull the Docker images from DockerHub:
 # Pull learning base image
 docker pull krish6447/learningbase_flower-classification:latest
 
+
 # Pull activation base image
 docker pull krish6447/activationbase_flower-classification:latest
 ```
