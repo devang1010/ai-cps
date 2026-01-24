@@ -75,3 +75,21 @@ docker-compose down
 - **License:** AGPL-3.0
 
 ---
+
+## 🧠 Subgoal 4: ANN Model Training
+
+### Model Performance
+- **Architecture:** 4-layer ANN (512→256→128→64→5)
+- **Final Validation Accuracy:** 46.42%
+- **Training Time:** 3.12 minutes
+- **Epochs:** 29 (early stopping)
+
+### Files Generated
+- `learningBase/currentAiSolution.h5` - Trained model
+- `learningBase/training_report.txt` - Performance metrics
+- `learningBase/training_history.csv` - Epoch-by-epoch data
+- `learningBase/visualizations/` - Charts and plots
+
+### Results Analysis
+The model achieved 46% accuracy on 5-class flower classification, demonstrating 
+successful learning despite ANN architectural limitations for image data.
