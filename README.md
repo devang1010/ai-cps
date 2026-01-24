@@ -76,13 +76,11 @@ docker-compose down
 
 ---
 
-## 🧠 Subgoal 4: ANN Model Training
-
 ### Model Performance
 - **Architecture:** 4-layer ANN (512→256→128→64→5)
-- **Final Validation Accuracy:** 46.42%
-- **Training Time:** 3.12 minutes
-- **Epochs:** 29 (early stopping)
+- **Final Validation Accuracy:** 47.36%
+- **Training Time:** 3.44 minutes
+- **Epochs:** 20 (early stopping)
 
 ### Files Generated
 - `learningBase/currentAiSolution.h5` - Trained model
