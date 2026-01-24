@@ -1,0 +1,23 @@
+
+FLOWER CLASSIFICATION OLS - TRAINING REPORT
+Date: 2026-01-24 18:42:50
+Training Duration: 0.73s
+PCA Components: 100
+Explained Variance: 78.79%
+Training Accuracy: 52.55%
+Test Accuracy: 46.66%
+Number of Classes: 5
+Classes: 0=sunflower, 1=daisy, 2=dandelion, 3=rose, 4=tulip
+
+PER-CLASS METRICS:
+Class          Precision Recall    F1        Support   
+sunflower      0.56      0.56      0.56      146       
+daisy          0.43      0.34      0.38      153       
+dandelion      0.41      0.51      0.45      200       
+rose           0.55      0.47      0.51      157       
+tulip          0.44      0.45      0.44      197       
+
+Comparison with ANN Model:
+ANN Test Accuracy: 47.36%
+OLS Test Accuracy: 46.66%
+Difference: -0.70%
