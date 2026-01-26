@@ -25,7 +25,7 @@ class DataPreparator:
     Class to handle all data preparation tasks
     """
     
-    def __init__(self, input_file='../data/german_credit_raw.csv'):
+    def __init__(self, input_file='/data/german_credit_raw.csv'):
         """
         Initialize the DataPreparator
         
@@ -237,7 +237,7 @@ class DataPreparator:
         return self.df_clean
     
     
-    def save_joint_data(self, output_dir='../data'):
+    def save_joint_data(self, output_dir='data'):
         """
         Save the cleaned and normalized joint dataset
         
@@ -285,7 +285,7 @@ class DataPreparator:
         return self.train_df, self.test_df
     
     
-    def save_split_data(self, output_dir='../data'):
+    def save_split_data(self, output_dir='data'):
         """
         Save training and test datasets separately
         
@@ -311,7 +311,7 @@ class DataPreparator:
         return train_path, test_path
     
     
-    def create_activation_data(self, output_dir='../data'):
+    def create_activation_data(self, output_dir='data'):
         """
         Create activation_data.csv with one sample from test data
         
@@ -375,7 +375,7 @@ def main():
     print("="*70)
     
     # Initialize preparator
-    preparator = DataPreparator(input_file='../data/german_credit_raw.csv')
+    preparator = DataPreparator(input_file='data/german_credit_raw.csv')
     
     # Step 1: Load data
     if not preparator.load_data():
@@ -407,7 +407,7 @@ def main():
     
     print("\n✅ DATA PREPARATION COMPLETED SUCCESSFULLY! ✅")
     print("\n💡 Next steps:")
-    print("   1. Check the ../data/ folder for all generated CSV files")
+    print("   1. Check the data/ folder for all generated CSV files")
     print("   2. Use training_data.csv for model training")
     print("   3. Use test_data.csv for model evaluation")
     print("   4. Use activation_data.csv for single prediction testing")

@@ -118,7 +118,7 @@ def scrape_with_beautifulsoup(url):
         return None
 
 
-def save_raw_data(df, output_dir='../data'):
+def save_raw_data(df, output_dir='data'):
     """
     Save scraped data to local filesystem
     
