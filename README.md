@@ -1,93 +1,41 @@
-# Flower Classification using ANN
+# German Credit Risk Classification
 
-**Authors:** Devang Thaker & Krish Manvar
-
-**Course:** M. Grum: Advanced AI-based Application Systems  
-**Institution:** Junior Chair for Business Information Science, esp. AI-based Application Systems, University of Potsdam
-
-## Project Description
-This project implements an Artificial Neural Network (ANN) to classify different flower species based on their features. We scrape flower images/data from the internet, preprocess them, train both an ANN and OLS model, and deploy the solution using Docker containers.
-
-## Dataset
+**Course**: M. Grum: Advanced AI-based Application Systems  
+**Project Type**: AI-based Credit Risk Assessment System  
+**Dataset**: German Credit Risk Dataset (UCI Machine Learning Repository)
 
 ---
 
-## 🐳 Docker Images
+## 📋 Project Overview
 
-### Pull Commands
-
-Pull the Docker images from DockerHub:
-```bash
-# Pull learning base image
-docker pull krish6447/learningbase_flower-classification:latest
-
-
-# Pull activation base image
-docker pull krish6447/activationbase_flower-classification:latest
-```
-
-### DockerHub Repositories
-- **Learning Base:** https://hub.docker.com/r/krish6447/learningbase_flower-classification
-- **Activation Base:** https://hub.docker.com/r/krish6447/activationbase_flower-classification
-
-### Quick Test
-
-Run containers individually:
-```bash
-# Test learning base
-docker run --rm krish6447/learningbase_flower-classification
-
-# Test activation base
-docker run --rm krish6447/activationbase_flower-classification
-```
-
-### Docker Compose Usage
-```bash
-# Create external volume (first time only)
-docker volume create ai_system
-
-# Start all services
-docker-compose up
-
-# In another terminal - access data
-docker-compose exec learningbase ls -la /tmp/learningBase/train/
-docker-compose exec activationbase ls -la /tmp/activationBase/
-
-# Stop services
-docker-compose down
-```
-
-### Image Contents
-
-**learningBase Image:**
-- `/tmp/learningBase/train/training_data.csv` - Training dataset (80%)
-- `/tmp/learningBase/validation/test_data.csv` - Test dataset (20%)
-- `/tmp/learningBase/README.md` - Documentation
-
-**activationBase Image:**
-- `/tmp/activationBase/activation_data.csv` - Activation dataset (5 samples)
-- `/tmp/activationBase/README.md` - Documentation
-
-### Technical Details
-- **Base Image:** busybox:latest
-- **Volume:** ai_system (external)
-- **Network:** flower_network (bridge)
-- **License:** AGPL-3.0
+This project implements an AI-based system for classifying credit risk using the German Credit Risk dataset. The system predicts whether a person represents a good or bad credit risk based on various financial and personal attributes.
 
 ---
 
-### Model Performance
-- **Architecture:** 4-layer ANN (512→256→128→64→5)
-- **Final Validation Accuracy:** 47.36%
-- **Training Time:** 3.44 minutes
-- **Epochs:** 20 (early stopping)
+## 👥 Team Members - **Devang Thaker, Krish Manvar** 
 
-### Files Generated
-- `learningBase/currentAiSolution.h5` - Trained model
-- `learningBase/training_report.txt` - Performance metrics
-- `learningBase/training_history.csv` - Epoch-by-epoch data
-- `learningBase/visualizations/` - Charts and plots
+---
 
-### Results Analysis
-The model achieved 46% accuracy on 5-class flower classification, demonstrating 
-successful learning despite ANN architectural limitations for image data.
+## 📊 Dataset Information
+
+### Source - https://github.com/devang1010/German-credit-score
+
+### Attributes
+
+| Attribute | Type | Description | Values/Range |
+|-----------|------|-------------|--------------|
+| Age | Numeric | Age of the person | Years |
+| Sex | Categorical | Gender | male, female |
+| Job | Numeric | Employment status | 0: unskilled & non-resident<br>1: unskilled & resident<br>2: skilled<br>3: highly skilled |
+| Housing | Categorical | Housing situation | own, rent, free |
+| Saving accounts | Categorical | Savings level | little, moderate, quite rich, rich |
+| Checking account | Numeric | Checking account balance | DM (Deutsche Mark) |
+| Credit amount | Numeric | Loan amount requested | DM |
+| Duration | Numeric | Loan duration | Months |
+| Purpose | Categorical | Purpose of loan | car, furniture/equipment, radio/TV, domestic appliances, repairs, education, business, vacation/others |
+
+### Target Variable
+- **Risk Classification**: Good or Bad credit risk
+
+---
+
