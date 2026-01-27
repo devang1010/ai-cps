@@ -3,8 +3,8 @@
 *__pycache__*
 *.pyc
 
-*.csv
-data/
+# *.csv
+# data/
 
 # *.h5
 

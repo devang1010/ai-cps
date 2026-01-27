@@ -1,0 +1,2 @@
+Unnamed: 0,Age,Sex,Job,Housing,Saving accounts,Checking account,Credit amount,Duration,Purpose,Risk,Sex_encoded,Housing_encoded,Saving accounts_encoded,Checking account_encoded,Purpose_encoded,Risk_encoded
+-0.31366045822568644,-0.6661222109892541,male,0.0,own,little,little,-0.9577979206632548,-0.4042583179033311,radio/TV,good,1,1,0,0,5,1
