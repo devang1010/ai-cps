@@ -142,11 +142,39 @@ class GermanCreditOLS:
         plt.close()
         print(f"Saved diagnostic & scatter plots: {plot_path}")
 
+    def normalize_ann_metrics(self, ann_metrics):
+        """Normalize ANN metric keys to match OLS format"""
+        normalized = {}
+        
+        # Handle different possible key formats
+        key_mappings = {
+            'test_accuracy': ['test_accuracy', 'accuracy', 'test_acc'],
+            'test_precision': ['test_precision', 'precision', 'test_prec'],
+            'test_recall': ['test_recall', 'recall', 'test_rec'],
+            'test_f1': ['test_f1', 'f1', 'test_f1_score', 'f1_score', 'test_f1score']
+        }
+        
+        for standard_key, possible_keys in key_mappings.items():
+            for key in possible_keys:
+                if key in ann_metrics:
+                    normalized[standard_key] = ann_metrics[key]
+                    break
+            
+            # If not found, set to 0
+            if standard_key not in normalized:
+                normalized[standard_key] = 0.0
+                print(f"⚠️  Warning: Could not find ANN metric for '{standard_key}'")
+        
+        return normalized
+
     def plot_comparison_bars(self, ann_metrics):
         """Generate bar chart comparison between OLS and ANN"""
         if not ann_metrics:
             print("No ANN metrics available for comparison.")
             return
+        
+        # Normalize metric keys
+        ann_metrics = self.normalize_ann_metrics(ann_metrics)
         
         # Extract metrics for comparison
         metrics_to_compare = ['test_accuracy', 'test_precision', 'test_recall', 'test_f1']
@@ -154,6 +182,14 @@ class GermanCreditOLS:
         
         ols_values = [self.metrics.get(m, 0) for m in metrics_to_compare]
         ann_values = [ann_metrics.get(m, 0) for m in metrics_to_compare]
+        
+        # Debug print
+        print("\n" + "="*70)
+        print("📊 COMPARISON VALUES")
+        print("="*70)
+        for label, ols_val, ann_val in zip(metric_labels, ols_values, ann_values):
+            print(f"{label:12} | OLS: {ols_val:.4f} | ANN: {ann_val:.4f}")
+        print("="*70 + "\n")
         
         # Create bar chart
         fig, ax = plt.subplots(figsize=(12, 7))
@@ -193,6 +229,9 @@ class GermanCreditOLS:
         if not ann_metrics:
             print("No ANN metrics available for detailed comparison.")
             return
+        
+        # Normalize metric keys
+        ann_metrics = self.normalize_ann_metrics(ann_metrics)
         
         fig = plt.figure(figsize=(16, 10))
         gs = fig.add_gridspec(2, 2, hspace=0.3, wspace=0.3)
@@ -300,6 +339,11 @@ class GermanCreditOLS:
     def generate_report(self, y_pred, y_pred_proba, ann_metrics=None):
         """Generate OLS report comparing with ANN if available"""
         report_path = os.path.join(self.output_dir, 'ols_training_report.txt')
+        
+        # Normalize ANN metrics if provided
+        if ann_metrics:
+            ann_metrics = self.normalize_ann_metrics(ann_metrics)
+        
         with open(report_path, 'w') as f:
             f.write("="*80 + "\n")
             f.write("GERMAN CREDIT RISK - OLS MODEL REPORT\n")
@@ -392,10 +436,15 @@ def main():
     # Try to load ANN metrics for comparison
     ann_metrics = None
     ann_metrics_path = 'images/learningBase/training_metrics.json'
+    
+    print(f"\n🔍 Looking for ANN metrics at: {ann_metrics_path}")
+    
     if os.path.exists(ann_metrics_path):
         with open(ann_metrics_path, 'r') as f:
             ann_metrics = json.load(f)
-        print(f"✅ Loaded ANN metrics for comparison from: {ann_metrics_path}")
+        
+        print(f"✅ Loaded ANN metrics from: {ann_metrics_path}")
+        print(f"📋 Available keys in ANN metrics: {list(ann_metrics.keys())}")
         
         # Generate comparison visualizations
         ols.plot_comparison_bars(ann_metrics)

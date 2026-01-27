@@ -49,8 +49,8 @@ test_recall:
 
 test_f1:
   OLS: 0.8444
-  ANN: 0.0000
-  Difference: +0.8444 (Winner: OLS)
+  ANN: 0.8471
+  Difference: -0.0026 (Winner: ANN)
 
 --------------------------------------------------------------------------------
 4. GENERATED FILES
