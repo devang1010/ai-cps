@@ -1,0 +1,69 @@
+================================================================================
+GERMAN CREDIT RISK - OLS MODEL REPORT
+================================================================================
+
+AUTHORS: Devang Thaker & Krish Manvar
+COURSE: M. Grum: Advanced AI-based Application Systems
+DATE: January 2026
+
+--------------------------------------------------------------------------------
+1. MODEL COEFFICIENTS
+--------------------------------------------------------------------------------
+const                       5.021342e-01
+Age                         2.982843e-02
+Job                        -7.054615e-17
+Credit amount               2.991702e-02
+Duration                   -7.526654e-02
+Sex_encoded                 8.827905e-02
+Housing_encoded            -3.274630e-02
+Saving accounts_encoded     1.716296e-02
+Checking account_encoded    1.142783e-01
+Purpose_encoded             9.330237e-04
+dtype: float64
+
+--------------------------------------------------------------------------------
+2. TEST PERFORMANCE
+--------------------------------------------------------------------------------
+test_accuracy: 0.7455
+test_precision: 0.7677
+test_recall: 0.9383
+test_f1: 0.8444
+
+--------------------------------------------------------------------------------
+3. COMPARISON WITH ANN
+--------------------------------------------------------------------------------
+test_accuracy:
+  OLS: 0.7455
+  ANN: 0.7636
+  Difference: -0.0182 (Winner: ANN)
+
+test_precision:
+  OLS: 0.7677
+  ANN: 0.8090
+  Difference: -0.0413 (Winner: ANN)
+
+test_recall:
+  OLS: 0.9383
+  ANN: 0.8889
+  Difference: +0.0494 (Winner: OLS)
+
+test_f1:
+  OLS: 0.8444
+  ANN: 0.0000
+  Difference: +0.8444 (Winner: OLS)
+
+--------------------------------------------------------------------------------
+4. GENERATED FILES
+--------------------------------------------------------------------------------
+Model files:
+  - currentOlsSolution.pkl
+  - currentOlsSolution.xml
+Metric files:
+  - ols_metrics.json
+Visualization files:
+  - ols_diagnostic_scatter.png
+  - ols_vs_ann_comparison.png
+  - ols_vs_ann_detailed_comparison.png
+================================================================================
+END OF REPORT
+================================================================================
