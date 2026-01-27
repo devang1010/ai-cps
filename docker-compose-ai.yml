@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  learningbase:
+    image: devangthaker/learningbase_germancreditrisk:latest
+    container_name: ai_learningbase
+    volumes:
+      - ai_system:/shared_data
+    command: >
+      sh -c "rm -rf /shared_data/* && 
+             cp -r /tmp/learningBase /shared_data/ &&
+             echo '✅ AI Learning Base: Data copied to shared volume' &&
+             ls -lh /shared_data/learningBase/ &&
+             tail -f /dev/null"
+    networks:
+      - ai_network
+
+  knowledgebase:
+    image: devangthaker/knowledgebase_germancreditrisk:latest
+    container_name: ai_knowledgebase
+    depends_on:
+      - learningbase
+    volumes:
+      - ai_system:/shared_data
+    command: >
+      sh -c "cp -r /tmp/knowledgeBase /shared_data/ &&
+             echo '✅ AI Knowledge Base: Models copied to shared volume' &&
+             ls -lh /shared_data/knowledgeBase/currentAiSolution.h5 &&
+             tail -f /dev/null"
+    networks:
+      - ai_network
+
+  codebase:
+    image: devangthaker/codebase_germancreditrisk:latest
+    container_name: ai_codebase
+    depends_on:
+      - knowledgebase
+    volumes:
+      - ai_system:/shared_data
+    command: >
+      sh -c "cp -r /tmp/activationBase /shared_data/ &&
+             echo '✅ AI Code Base: Activation data copied to shared volume' &&
+             ls -lh /shared_data/activationBase/activation_data.csv &&
+             tail -f /dev/null"
+    networks:
+      - ai_network
+
+volumes:
+  ai_system:
+    external: true
+
+networks:
+  ai_network:
+    driver: bridge

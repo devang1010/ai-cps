@@ -17,6 +17,7 @@ The project includes:
 - Ordinary Least Squares (OLS) regression model
 - Comprehensive model comparison and evaluation
 - Docker-based deployment infrastructure
+- Docker Compose orchestration for AI and OLS model applications
 
 This repository is forked from [MarcusGrum/AI-CPS](https://github.com/MarcusGrum/AI-CPS) as part of the course requirements.
 
@@ -70,23 +71,17 @@ AI-CPS/
 │   ├── test_data.csv                # 20% test set
 │   └── activation_data.csv          # Single sample for testing
 ├── images/
-│   ├── learningBase/                # Training/test data and ANN model
-│   │   ├── data/                    # Training and test datasets
-│   │   ├── currentAiSolution.h5     # Trained ANN model
-│   │   ├── training_metrics.json    # ANN performance metrics
-│   │   ├── diagnostic_plots.png     # ANN diagnostic visualizations
-│   │   └── training_report.txt      # ANN training report
-│   ├── activationBase/              # Activation data
-│   │   └── data/
-│   │       └── activation_data.csv  # Single test sample
-│   ├── olsBase/                     # OLS model and comparison
-│   │   ├── currentOlsSolution.pkl   # Trained OLS model (pickle)
-│   │   ├── currentOlsSolution.xml   # Trained OLS model (XML)
-│   │   ├── ols_metrics.json         # OLS performance metrics
-│   │   ├── ols_diagnostic_scatter.png           # OLS diagnostics
-│   │   ├── ols_vs_ann_comparison.png            # Model comparison chart
-│   │   ├── ols_vs_ann_detailed_comparison.png   # Detailed comparison
-│   │   └── ols_training_report.txt  # OLS training report
+│   ├── activationBase/              # Docker image for activation data
+│   │   ├── data/
+│   │   │   └── activation_data.csv
+│   │   ├── Dockerfile
+│   │   ├── README.md
+│   │   └── docker-compose.yml
+│   ├── codeBase/                    # Docker image for activation data (deployment)
+│   │   ├── Dockerfile
+│   │   ├── README.md
+│   │   ├── docker-compose.yml
+│   │   └── activation_data.csv
 │   ├── knowledgeBase/               # Docker image for AI/OLS models
 │   │   ├── Dockerfile
 │   │   ├── README.md
@@ -94,12 +89,29 @@ AI-CPS/
 │   │   ├── currentAiSolution.h5
 │   │   ├── currentOlsSolution.pkl
 │   │   └── currentOlsSolution.xml
-│   └── codeBase/                    # Docker image for activation data
-│       ├── Dockerfile
-│       ├── README.md
-│       ├── docker-compose.yml
-│       └── activation_data.csv
-├── docker-compose.yml               # Unified Docker Compose configuration
+│   ├── learningBase/                # Docker image for training/test data
+│   │   ├── data/
+│   │   │   ├── train/
+│   │   │   │   └── training_data.csv
+│   │   │   └── validation/
+│   │   │       └── test_data.csv
+│   │   ├── currentAiSolution.h5     # Trained ANN model
+│   │   ├── training_metrics.json    # ANN performance metrics
+│   │   ├── diagnostic_plots.png     # ANN diagnostic visualizations
+│   │   ├── training_report.txt      # ANN training report
+│   │   ├── Dockerfile
+│   │   ├── README.md
+│   │   └── docker-compose.yml
+│   └── olsBase/                     # OLS model and comparison
+│       ├── currentOlsSolution.pkl   # Trained OLS model (pickle)
+│       ├── currentOlsSolution.xml   # Trained OLS model (XML)
+│       ├── ols_metrics.json         # OLS performance metrics
+│       ├── ols_diagnostic_scatter.png           # OLS diagnostics
+│       ├── ols_vs_ann_comparison.png            # Model comparison chart
+│       ├── ols_vs_ann_detailed_comparison.png   # Detailed comparison
+│       └── ols_training_report.txt  # OLS training report
+├── docker-compose-ai.yml            # Docker Compose for AI model application
+├── docker-compose-ols.yml           # Docker Compose for OLS model application
 └── README.md
 ```
 
@@ -107,7 +119,7 @@ AI-CPS/
 
 ## 🐳 Docker Images
 
-This project provides four Docker images for data and model management:
+This project provides three Docker images published to Docker Hub for complete model deployment:
 
 ### 1. Learning Base Image
 Contains training and test data for model development.
@@ -116,6 +128,8 @@ Contains training and test data for model development.
 ```bash
 docker pull devangthaker/learningbase_germancreditrisk:latest
 ```
+
+**Image size:** ~6.96 MB
 
 **Data locations:**
 - Training data: `/tmp/learningBase/train/training_data.csv`
@@ -129,10 +143,12 @@ Contains trained AI and OLS models.
 docker pull devangthaker/knowledgebase_germancreditrisk:latest
 ```
 
+**Image size:** ~7.41 MB
+
 **Model locations:**
-- ANN model: `/tmp/knowledgeBase/currentAiSolution.h5`
-- OLS model (pickle): `/tmp/knowledgeBase/currentOlsSolution.pkl`
-- OLS model (XML): `/tmp/knowledgeBase/currentOlsSolution.xml`
+- ANN model: `/tmp/knowledgeBase/currentAiSolution.h5` (~224 KB)
+- OLS model (pickle): `/tmp/knowledgeBase/currentOlsSolution.pkl` (~121 KB)
+- OLS model (XML): `/tmp/knowledgeBase/currentOlsSolution.xml` (~688 bytes)
 
 ### 3. Code Base Image
 Contains activation data for model testing.
@@ -142,8 +158,10 @@ Contains activation data for model testing.
 docker pull devangthaker/codebase_germancreditrisk:latest
 ```
 
+**Image size:** ~6.82 MB
+
 **Data location:**
-- Activation data: `/tmp/activationBase/activation_data.csv`
+- Activation data: `/tmp/activationBase/activation_data.csv` (342 bytes)
 
 ---
 
@@ -166,53 +184,84 @@ cd AI-CPS
 docker volume create ai_system
 ```
 
-3. **Start all services**
+3. **Run AI Model Application**
 ```bash
-docker-compose up -d
+# Start AI composition
+docker-compose -f docker-compose-ai.yml up -d
+
+# Check running containers
+docker ps
+
+# View logs
+docker-compose -f docker-compose-ai.yml logs
+
+# Verify AI model is accessible
+docker exec ai_knowledgebase ls -lh /shared_data/knowledgeBase/currentAiSolution.h5
+
+# Stop AI composition
+docker-compose -f docker-compose-ai.yml down
 ```
 
-4. **Check status**
+4. **Run OLS Model Application**
 ```bash
-docker-compose ps
+# Clear volume
+docker volume rm ai_system
+docker volume create ai_system
+
+# Start OLS composition
+docker-compose -f docker-compose-ols.yml up -d
+
+# Check running containers
+docker ps
+
+# View logs
+docker-compose -f docker-compose-ols.yml logs
+
+# Verify OLS models are accessible
+docker exec ols_knowledgebase ls -lh /shared_data/knowledgeBase/currentOlsSolution.pkl
+docker exec ols_knowledgebase ls -lh /shared_data/knowledgeBase/currentOlsSolution.xml
+
+# Stop OLS composition
+docker-compose -f docker-compose-ols.yml down
 ```
 
-5. **View logs**
-```bash
-docker-compose logs
-```
+### Docker Compose Files
 
-6. **Stop services**
-```bash
-docker-compose down
-```
+#### AI Model Composition (`docker-compose-ai.yml`)
+- Deploys the Artificial Neural Network model
+- Uses all three Docker Hub images
+- Mounts external volume `ai_system` to `/shared_data`
+- Clears existing volume content on startup
+- Provides access to:
+  - Training/test data
+  - `currentAiSolution.h5` (Keras model)
+  - Activation data for testing
+
+#### OLS Model Composition (`docker-compose-ols.yml`)
+- Deploys the Ordinary Least Squares regression model
+- Uses all three Docker Hub images
+- Mounts external volume `ai_system` to `/shared_data`
+- Clears existing volume content on startup
+- Provides access to:
+  - Training/test data
+  - `currentOlsSolution.pkl` (Pickle format)
+  - `currentOlsSolution.xml` (XML format)
+  - Activation data for testing
 
 ### Accessing Data and Models
 
-**From container shell:**
+**Verify AI model files:**
 ```bash
-# Access Learning Base
-docker-compose exec learningbase sh
-
-# Access Knowledge Base
-docker-compose exec knowledgebase sh
-
-# Access Code Base
-docker-compose exec codebase sh
+docker exec ai_knowledgebase ls -lh /shared_data/knowledgeBase/
+docker exec ai_codebase ls -lh /shared_data/activationBase/
+docker exec ai_learningbase ls -lh /shared_data/learningBase/
 ```
 
-**View data files:**
+**Verify OLS model files:**
 ```bash
-# Training data
-docker-compose exec learningbase ls -lh /tmp/learningBase/train/
-
-# Test data
-docker-compose exec learningbase ls -lh /tmp/learningBase/validation/
-
-# AI/OLS models
-docker-compose exec knowledgebase ls -lh /tmp/knowledgeBase/
-
-# Activation data
-docker-compose exec codebase ls -lh /tmp/activationBase/
+docker exec ols_knowledgebase ls -lh /shared_data/knowledgeBase/
+docker exec ols_codebase ls -lh /shared_data/activationBase/
+docker exec ols_learningbase ls -lh /shared_data/learningBase/
 ```
 
 ---
@@ -241,6 +290,11 @@ docker-compose exec codebase ls -lh /tmp/activationBase/
 - Test Recall: 88.89%
 - Test F1-Score: 84.71%
 
+**Deployment:**
+- Model file: `currentAiSolution.h5` (~224 KB)
+- Format: Keras HDF5
+- Accessed via: `docker-compose-ai.yml`
+
 ### Ordinary Least Squares (OLS)
 
 **Model Type:** Linear Regression using Statsmodels
@@ -251,9 +305,27 @@ docker-compose exec codebase ls -lh /tmp/activationBase/
 - Test Recall: 93.77%
 - Test F1-Score: 84.43%
 
+**Deployment:**
+- Model files:
+  - `currentOlsSolution.pkl` (~121 KB) - Scikit-learn pickle format
+  - `currentOlsSolution.xml` (~688 bytes) - XML metadata
+- Accessed via: `docker-compose-ols.yml`
+
 ### Model Comparison
 
-Both models demonstrate strong performance, with the ANN slightly outperforming OLS in accuracy and precision, while OLS shows higher recall. Detailed comparison visualizations are available in the `olsBase` directory.
+Both models demonstrate strong performance, with the ANN slightly outperforming OLS in accuracy and precision, while OLS shows higher recall. The Docker Compose infrastructure allows easy deployment and switching between both models using the same data pipeline.
+
+**Key Differences:**
+
+| Aspect | AI Model | OLS Model |
+|--------|----------|-----------|
+| Type | Deep Neural Network | Linear Regression |
+| File Format | HDF5 (.h5) | Pickle (.pkl) + XML |
+| File Size | ~224 KB | ~121 KB + ~688 bytes |
+| Accuracy | 76.36% | 74.55% |
+| Precision | 80.90% | 76.82% |
+| Recall | 88.89% | 93.77% |
+| F1-Score | 84.71% | 84.43% |
 
 ---
 
@@ -341,6 +413,90 @@ Both models demonstrate strong performance, with the ANN slightly outperforming 
 - Unified docker-compose.yml created for all services
 - External volume `ai_system` used for data mounting
 
+### Subgoal 7: Docker Builds and Docker-Compose Utilization ✅
+
+Created two separate Docker Compose configurations for deploying AI and OLS model applications:
+
+**AI Model Application** (`docker-compose-ai.yml`):
+- Uses three Docker Hub images:
+  - `devangthaker/learningbase_germancreditrisk:latest`
+  - `devangthaker/knowledgebase_germancreditrisk:latest`
+  - `devangthaker/codebase_germancreditrisk:latest`
+- Mounts external volume `ai_system:/shared_data`
+- Clears `/shared_data/*` content on startup
+- Provides access to:
+  - Training/validation data from learningBase
+  - AI model (`currentAiSolution.h5`) from knowledgeBase
+  - Activation data from codeBase
+- Container names: `ai_learningbase`, `ai_knowledgebase`, `ai_codebase`
+- Network: `ai-cps_ai_network`
+
+**OLS Model Application** (`docker-compose-ols.yml`):
+- Uses same three Docker Hub images
+- Mounts external volume `ai_system:/shared_data`
+- Clears `/shared_data/*` content on startup
+- Provides access to:
+  - Training/validation data from learningBase
+  - OLS models (`currentOlsSolution.pkl`, `currentOlsSolution.xml`) from knowledgeBase
+  - Activation data from codeBase
+- Container names: `ols_learningbase`, `ols_knowledgebase`, `ols_codebase`
+- Network: `ai-cps_ols_network`
+
+**Key Features:**
+- Both compositions use the same external volume for data persistence
+- Volume content cleared before each deployment to ensure clean state
+- All containers remain running with `tail -f /dev/null` for data access
+- Comprehensive logging showing successful data copying and file verification
+- Models and data accessible via shared volume across containers
+
+**Verification:**
+- AI model file accessible at ~224 KB
+- OLS model files accessible at ~121 KB (pkl) and ~688 bytes (xml)
+- Both compositions successfully tested and verified
+- Clean separation between AI and OLS deployments
+
+---
+
+## 🧪 Testing
+
+### Automated Verification
+
+A comprehensive test script is available to verify both Docker Compose configurations:
+
+```bash
+# Run automated tests
+bash test_subgoal7.sh
+```
+
+The test script verifies:
+- External volume creation
+- Container startup for both compositions
+- File accessibility (AI and OLS models)
+- Activation data availability
+- Log message correctness
+- Clean shutdown of services
+
+### Manual Testing
+
+**Test AI Composition:**
+```bash
+docker volume create ai_system
+docker-compose -f docker-compose-ai.yml up -d
+docker exec ai_knowledgebase ls -lh /shared_data/knowledgeBase/currentAiSolution.h5
+docker-compose -f docker-compose-ai.yml logs
+docker-compose -f docker-compose-ai.yml down
+```
+
+**Test OLS Composition:**
+```bash
+docker volume rm ai_system && docker volume create ai_system
+docker-compose -f docker-compose-ols.yml up -d
+docker exec ols_knowledgebase ls -lh /shared_data/knowledgeBase/currentOlsSolution.pkl
+docker exec ols_knowledgebase ls -lh /shared_data/knowledgeBase/currentOlsSolution.xml
+docker-compose -f docker-compose-ols.yml logs
+docker-compose -f docker-compose-ols.yml down
+```
+
 ---
 
 ## 📄 License
@@ -366,7 +522,17 @@ For questions or issues, please contact through the University of Potsdam course
 
 ## 📚 References
 
-- TensorFlow/Keras Documentation
-- Statsmodels Documentation
-- Docker Documentation
-- Scikit-learn Documentation
+- TensorFlow/Keras Documentation: https://www.tensorflow.org/
+- Statsmodels Documentation: https://www.statsmodels.org/
+- Docker Documentation: https://docs.docker.com/
+- Docker Compose Documentation: https://docs.docker.com/compose/
+- Scikit-learn Documentation: https://scikit-learn.org/
+- Docker Hub: https://hub.docker.com/
+
+---
+
+## 🎯 Project Status
+
+**Current Status:** ✅ All Subgoals Complete (1-7)
+
+All project requirements have been successfully implemented, tested, and verified. Both AI and OLS model applications are fully deployable using Docker Compose with proper volume management and data accessibility.
