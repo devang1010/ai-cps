@@ -1,0 +1,105 @@
+================================================================================
+GERMAN CREDIT RISK - ANN MODEL TRAINING REPORT
+================================================================================
+
+AUTHORS: Devang Thaker & Krish Manvar
+COURSE: M. Grum: Advanced AI-based Application Systems
+INSTITUTION: University of Potsdam
+DATE: January 2026
+
+--------------------------------------------------------------------------------
+1. MODEL ARCHITECTURE
+--------------------------------------------------------------------------------
+
+Model: "sequential"
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━┓
+┃ Layer (type)                         ┃ Output Shape                ┃         Param # ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━┩
+│ dense (Dense)                        │ (None, 128)                 │           1,280 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ batch_normalization                  │ (None, 128)                 │             512 │
+│ (BatchNormalization)                 │                             │                 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dropout (Dropout)                    │ (None, 128)                 │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ hidden_layer_1 (Dense)               │ (None, 64)                  │           8,256 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ batch_normalization_1                │ (None, 64)                  │             256 │
+│ (BatchNormalization)                 │                             │                 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dropout_1 (Dropout)                  │ (None, 64)                  │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ hidden_layer_2 (Dense)               │ (None, 32)                  │           2,080 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ batch_normalization_2                │ (None, 32)                  │             128 │
+│ (BatchNormalization)                 │                             │                 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dropout_2 (Dropout)                  │ (None, 32)                  │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ hidden_layer_3 (Dense)               │ (None, 16)                  │             528 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ dropout_3 (Dropout)                  │ (None, 16)                  │               0 │
+├──────────────────────────────────────┼─────────────────────────────┼─────────────────┤
+│ output_layer (Dense)                 │ (None, 1)                   │              17 │
+└──────────────────────────────────────┴─────────────────────────────┴─────────────────┘
+ Total params: 38,277 (149.52 KB)
+ Trainable params: 12,609 (49.25 KB)
+ Non-trainable params: 448 (1.75 KB)
+ Optimizer params: 25,220 (98.52 KB)
+
+--------------------------------------------------------------------------------
+2. TRAINING CONFIGURATION
+--------------------------------------------------------------------------------
+
+Total Epochs Trained: 55
+Training Samples: 438
+Test Samples: 110
+Number of Features: 9
+Optimizer: Adam (learning_rate=0.001)
+Loss Function: Binary Crossentropy
+Batch Size: 32
+
+--------------------------------------------------------------------------------
+3. TRAINING RESULTS
+--------------------------------------------------------------------------------
+
+Final Training Loss: 0.403369
+Final Validation Loss: 0.427080
+Final Training Accuracy: 0.799087 (79.91%)
+Final Validation Accuracy: 0.754545 (75.45%)
+
+--------------------------------------------------------------------------------
+4. TEST SET PERFORMANCE
+--------------------------------------------------------------------------------
+
+Test Accuracy: 0.763636 (76.36%)
+Test Precision: 0.808989
+Test Recall: 0.888889
+Test F1-Score: 0.847059
+
+--------------------------------------------------------------------------------
+5. FILES GENERATED
+--------------------------------------------------------------------------------
+
+Model Files:
+  - currentAiSolution.h5 (Keras model)
+  - currentAiSolution_tf/ (TensorFlow SavedModel)
+  - currentAiSolution_architecture.json (Model architecture)
+  - currentAiSolution_weights.h5 (Model weights)
+
+Metric Files:
+  - training_metrics.json (Performance metrics)
+  - training_history.json (Epoch-by-epoch history)
+  - training_history.csv (History in CSV format)
+
+Visualization Files:
+  - training_testing_curves.png (Loss & Accuracy curves)
+  - diagnostic_plots.png (Confusion Matrix, ROC, PR curves)
+  - scatter_plots.png (Prediction scatter plots)
+
+Report Files:
+  - training_report.txt (This file)
+
+================================================================================
+END OF REPORT
+================================================================================

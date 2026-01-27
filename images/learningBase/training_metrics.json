@@ -1,0 +1,14 @@
+{
+    "total_epochs_trained": 55,
+    "final_training_loss": 0.4033692181110382,
+    "final_validation_loss": 0.4270797669887543,
+    "final_training_accuracy": 0.7990867495536804,
+    "final_validation_accuracy": 0.7545454502105713,
+    "test_accuracy": 0.7636363636363637,
+    "test_precision": 0.8089887640449438,
+    "test_recall": 0.8888888888888888,
+    "test_f1_score": 0.8470588235294118,
+    "total_training_samples": 438,
+    "total_test_samples": 110,
+    "number_of_features": 9
+}
