@@ -461,13 +461,6 @@ Created two separate Docker Compose configurations for deploying AI and OLS mode
 
 ### Automated Verification
 
-A comprehensive test script is available to verify both Docker Compose configurations:
-
-```bash
-# Run automated tests
-bash test_subgoal7.sh
-```
-
 The test script verifies:
 - External volume creation
 - Container startup for both compositions
