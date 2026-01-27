@@ -11,6 +11,13 @@
 
 This project implements an AI-based system for classifying credit risk using the German Credit Risk dataset. The system predicts whether a person represents a good or bad credit risk based on various financial and personal attributes.
 
+The project includes:
+- Data scraping and preprocessing
+- Artificial Neural Network (ANN) model
+- Ordinary Least Squares (OLS) regression model
+- Comprehensive model comparison and evaluation
+- Docker-based deployment infrastructure
+
 This repository is forked from [MarcusGrum/AI-CPS](https://github.com/MarcusGrum/AI-CPS) as part of the course requirements.
 
 ---
@@ -53,7 +60,9 @@ This repository is forked from [MarcusGrum/AI-CPS](https://github.com/MarcusGrum
 AI-CPS/
 ├── code/
 │   ├── 01_data_scrapper.py          # Web scraping script
-│   └── 02_data_preparation.py       # Data cleaning and preparation
+│   ├── 02_data_preparation.py       # Data cleaning and preparation
+│   ├── 03_ann_model.py              # ANN model training
+│   └── 04_ols_model.py              # OLS model training and comparison
 ├── data/
 │   ├── german_credit_raw.csv        # Raw scraped data
 │   ├── joint_data_collection.csv    # Cleaned and normalized data
@@ -61,8 +70,35 @@ AI-CPS/
 │   ├── test_data.csv                # 20% test set
 │   └── activation_data.csv          # Single sample for testing
 ├── images/
-│   ├── learningBase/                # Docker image for training/test data
-│   └── activationBase/              # Docker image for activation data
+│   ├── learningBase/                # Training/test data and ANN model
+│   │   ├── data/                    # Training and test datasets
+│   │   ├── currentAiSolution.h5     # Trained ANN model
+│   │   ├── training_metrics.json    # ANN performance metrics
+│   │   ├── diagnostic_plots.png     # ANN diagnostic visualizations
+│   │   └── training_report.txt      # ANN training report
+│   ├── activationBase/              # Activation data
+│   │   └── data/
+│   │       └── activation_data.csv  # Single test sample
+│   ├── olsBase/                     # OLS model and comparison
+│   │   ├── currentOlsSolution.pkl   # Trained OLS model (pickle)
+│   │   ├── currentOlsSolution.xml   # Trained OLS model (XML)
+│   │   ├── ols_metrics.json         # OLS performance metrics
+│   │   ├── ols_diagnostic_scatter.png           # OLS diagnostics
+│   │   ├── ols_vs_ann_comparison.png            # Model comparison chart
+│   │   ├── ols_vs_ann_detailed_comparison.png   # Detailed comparison
+│   │   └── ols_training_report.txt  # OLS training report
+│   ├── knowledgeBase/               # Docker image for AI/OLS models
+│   │   ├── Dockerfile
+│   │   ├── README.md
+│   │   ├── docker-compose.yml
+│   │   ├── currentAiSolution.h5
+│   │   ├── currentOlsSolution.pkl
+│   │   └── currentOlsSolution.xml
+│   └── codeBase/                    # Docker image for activation data
+│       ├── Dockerfile
+│       ├── README.md
+│       ├── docker-compose.yml
+│       └── activation_data.csv
 ├── docker-compose.yml               # Unified Docker Compose configuration
 └── README.md
 ```
@@ -71,9 +107,9 @@ AI-CPS/
 
 ## 🐳 Docker Images
 
-This project provides two Docker images for data management:
+This project provides four Docker images for data and model management:
 
-### Learning Base Image
+### 1. Learning Base Image
 Contains training and test data for model development.
 
 **Pull command:**
@@ -85,12 +121,25 @@ docker pull devangthaker/learningbase_germancreditrisk:latest
 - Training data: `/tmp/learningBase/train/training_data.csv`
 - Test data: `/tmp/learningBase/validation/test_data.csv`
 
-### Activation Base Image
-Contains a single test sample for model activation and testing.
+### 2. Knowledge Base Image
+Contains trained AI and OLS models.
 
 **Pull command:**
 ```bash
-docker pull devangthaker/activationbase_germancreditrisk:latest
+docker pull devangthaker/knowledgebase_germancreditrisk:latest
+```
+
+**Model locations:**
+- ANN model: `/tmp/knowledgeBase/currentAiSolution.h5`
+- OLS model (pickle): `/tmp/knowledgeBase/currentOlsSolution.pkl`
+- OLS model (XML): `/tmp/knowledgeBase/currentOlsSolution.xml`
+
+### 3. Code Base Image
+Contains activation data for model testing.
+
+**Pull command:**
+```bash
+docker pull devangthaker/codebase_germancreditrisk:latest
 ```
 
 **Data location:**
@@ -117,7 +166,7 @@ cd AI-CPS
 docker volume create ai_system
 ```
 
-3. **Start services**
+3. **Start all services**
 ```bash
 docker-compose up -d
 ```
@@ -137,15 +186,18 @@ docker-compose logs
 docker-compose down
 ```
 
-### Accessing Data
+### Accessing Data and Models
 
 **From container shell:**
 ```bash
 # Access Learning Base
 docker-compose exec learningbase sh
 
-# Access Activation Base
-docker-compose exec activationbase sh
+# Access Knowledge Base
+docker-compose exec knowledgebase sh
+
+# Access Code Base
+docker-compose exec codebase sh
 ```
 
 **View data files:**
@@ -156,9 +208,52 @@ docker-compose exec learningbase ls -lh /tmp/learningBase/train/
 # Test data
 docker-compose exec learningbase ls -lh /tmp/learningBase/validation/
 
+# AI/OLS models
+docker-compose exec knowledgebase ls -lh /tmp/knowledgeBase/
+
 # Activation data
-docker-compose exec activationbase cat /tmp/activationBase/activation_data.csv
+docker-compose exec codebase ls -lh /tmp/activationBase/
 ```
+
+---
+
+## 🤖 Models
+
+### Artificial Neural Network (ANN)
+
+**Architecture:**
+- Input Layer: 9 features
+- Hidden Layer 1: 128 neurons (ReLU) + Batch Normalization + Dropout (0.3)
+- Hidden Layer 2: 64 neurons (ReLU) + Batch Normalization + Dropout (0.3)
+- Hidden Layer 3: 32 neurons (ReLU) + Batch Normalization + Dropout (0.3)
+- Hidden Layer 4: 16 neurons (ReLU) + Dropout (0.3)
+- Output Layer: 1 neuron (Sigmoid)
+
+**Training Configuration:**
+- Optimizer: Adam (learning_rate=0.001)
+- Loss Function: Binary Crossentropy
+- Batch Size: 32
+- Epochs: 55
+
+**Performance Metrics:**
+- Test Accuracy: 76.36%
+- Test Precision: 80.90%
+- Test Recall: 88.89%
+- Test F1-Score: 84.71%
+
+### Ordinary Least Squares (OLS)
+
+**Model Type:** Linear Regression using Statsmodels
+
+**Performance Metrics:**
+- Test Accuracy: 74.55%
+- Test Precision: 76.82%
+- Test Recall: 93.77%
+- Test F1-Score: 84.43%
+
+### Model Comparison
+
+Both models demonstrate strong performance, with the ANN slightly outperforming OLS in accuracy and precision, while OLS shows higher recall. Detailed comparison visualizations are available in the `olsBase` directory.
 
 ---
 
@@ -181,9 +276,10 @@ docker-compose exec activationbase cat /tmp/activationBase/activation_data.csv
   - `test_data.csv`
   - `activation_data.csv`
 
-### Subgoal 3: Docker Images ✅
-- Two Docker images created based on busybox
-- Images published to Docker Hub
+### Subgoal 3: Docker Images for Data ✅
+- Two Docker images created (learningBase, activationBase)
+- Images based on busybox
+- Published to Docker Hub
 - README.md included in each image with:
   - Ownership information
   - Course and institution details
@@ -191,6 +287,59 @@ docker-compose exec activationbase cat /tmp/activationBase/activation_data.csv
   - AGPL-3.0 license statement
 - docker-compose.yml using external volume `ai_system`
 - Data accessible at specified paths
+
+### Subgoal 4: AI Model Development ✅
+- Deep Neural Network (ANN) implemented using TensorFlow/Keras
+- Model architecture: 4 hidden layers with batch normalization and dropout
+- Training performed on prepared dataset
+- Model saved as `currentAiSolution.h5`
+- Performance metrics documented:
+  - Training accuracy, validation accuracy
+  - Test accuracy, precision, recall, F1-score
+- Visualizations generated:
+  - Training/testing curves (loss and accuracy)
+  - Diagnostic plots (confusion matrix, ROC curve, PR curve)
+  - Scatter plots (actual vs predicted)
+- Training report generated with comprehensive documentation
+
+### Subgoal 5: OLS Model and Comparison ✅
+- OLS regression model implemented using Statsmodels
+- Model trained on same dataset as ANN
+- Model saved in multiple formats:
+  - `currentOlsSolution.pkl` (pickle format)
+  - `currentOlsSolution.xml` (XML format)
+- Testing routines implemented for validation
+- Performance metrics calculated and stored
+- Diagnostic visualizations generated:
+  - Residual plots
+  - Scatter plots (actual vs predicted)
+- Comprehensive comparison with ANN model:
+  - Side-by-side performance metrics
+  - Bar chart comparisons
+  - Detailed comparison dashboard
+- Training report with comparison analysis
+
+### Subgoal 6: Model Docker Provision ✅
+- Two additional Docker images created:
+  
+  **Knowledge Base Image** (`knowledgebase_germancreditrisk`):
+  - Contains trained AI and OLS models
+  - Files: currentAiSolution.h5, currentOlsSolution.pkl, currentOlsSolution.xml
+  - Path: `/tmp/knowledgeBase/`
+  - Based on busybox image
+  - Includes README.md with ownership, course info, model characterization, and AGPL-3.0 license
+  
+  **Code Base Image** (`codebase_germancreditrisk`):
+  - Contains activation data for testing
+  - File: activation_data.csv
+  - Path: `/tmp/activationBase/`
+  - Based on busybox image
+  - Includes README.md with ownership, course info, data characterization, and AGPL-3.0 license
+
+- Each image tested with individual docker-compose.yml
+- Images published to Docker Hub
+- Unified docker-compose.yml created for all services
+- External volume `ai_system` used for data mounting
 
 ---
 
@@ -212,3 +361,12 @@ For questions or issues, please contact through the University of Potsdam course
 - **Institution**: Junior Chair for Business Information Science, esp. AI-based Application Systems, University of Potsdam
 - **Original Repository**: [MarcusGrum/AI-CPS](https://github.com/MarcusGrum/AI-CPS)
 - **Dataset Source**: [German Credit Score Repository](https://github.com/devang1010/German-credit-score)
+
+---
+
+## 📚 References
+
+- TensorFlow/Keras Documentation
+- Statsmodels Documentation
+- Docker Documentation
+- Scikit-learn Documentation

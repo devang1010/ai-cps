@@ -21,9 +21,6 @@ services:
              echo '📊 Validation Data Info:' &&
              ls -lh /tmp/learningBase/validation/ &&
              echo '' &&
-             echo '📋 Training Data Sample (first 5 lines):' &&
-             head -n 5 /tmp/learningBase/train/training_data.csv &&
-             echo '' &&
              echo '✅ Learning Base ready for AI training' &&
              echo '=============================================' &&
              tail -f /dev/null"
@@ -31,24 +28,42 @@ services:
     networks:
       - ai_network
 
-  # Activation Base Service - Contains single test sample
-  activationbase:
-    image: devangthaker/activationbase_germancreditrisk:latest
-    container_name: germancredit_activationbase
+  # Knowledge Base Service - Contains trained AI/OLS models
+  knowledgebase:
+    image: devangthaker/knowledgebase_germancreditrisk:latest
+    container_name: germancredit_knowledgebase
     volumes:
       - ai_system:/tmp
     command: >
       sh -c "echo '=============================================' &&
-             echo '🎯 Activation Base Container Started' &&
+             echo '🧠 Knowledge Base Container Started' &&
              echo '=============================================' &&
              echo '' &&
-             echo '📂 Directory Contents:' &&
-             ls -la /tmp/activationBase &&
+             echo '📂 Available Models:' &&
+             ls -lh /tmp/knowledgeBase/ &&
              echo '' &&
-             echo '📋 Activation Data:' &&
-             cat /tmp/activationBase/activation_data.csv &&
+             echo '✅ Knowledge Base ready' &&
+             echo '=============================================' &&
+             tail -f /dev/null"
+    restart: unless-stopped
+    networks:
+      - ai_network
+
+  # Code Base Service - Contains activation data for testing
+  codebase:
+    image: devangthaker/codebase_germancreditrisk:latest
+    container_name: germancredit_codebase
+    volumes:
+      - ai_system:/tmp
+    command: >
+      sh -c "echo '=============================================' &&
+             echo '📦 Code Base Container Started' &&
+             echo '=============================================' &&
              echo '' &&
-             echo '✅ Activation Base ready for model testing' &&
+             echo '📂 Activation Data Files:' &&
+             ls -lh /tmp/activationBase/ &&
+             echo '' &&
+             echo '✅ Code Base ready for model testing' &&
              echo '=============================================' &&
              tail -f /dev/null"
     restart: unless-stopped
