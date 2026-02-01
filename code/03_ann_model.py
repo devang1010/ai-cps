@@ -1,6 +1,6 @@
 """
 ANN Model Training for German Credit Risk Classification
-Author: Devang Thaker & Krish Manvar
+Author: Devang Thaker
 Date: January 2026
 Course: M. Grum: Advanced AI-based Application Systems
 

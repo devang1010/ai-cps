@@ -1,6 +1,6 @@
 """
 Data Preparation Script for German Credit Risk Dataset
-Author: [Your Name]
+Author: [Krish Manvar]
 Date: January 2026
 Course: M. Grum: Advanced AI-based Application Systems
 
