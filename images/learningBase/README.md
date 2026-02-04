@@ -32,12 +32,12 @@ The German Credit dataset contains information about credit applicants and their
 
 ### Pull the image
 ```bash
-docker pull [your-dockerhub-username]/learningbase_germancreditrisk:latest
+docker pull devangthaker/learningbase_germancreditrisk:latest
 ```
 
 ### Run the container
 ```bash
-docker run --rm [your-dockerhub-username]/learningbase_germancreditrisk:latest
+docker run --rm devangthaker/learningbase_germancreditrisk:latest
 ```
 
 ### Use with docker-compose

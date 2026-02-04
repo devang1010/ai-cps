@@ -32,12 +32,12 @@ This image contains a single credit application record that can be used to:
 
 ### Pull the image
 ```bash
-docker pull [your-dockerhub-username]/activationbase_germancreditrisk:latest
+docker pull devangthaker/activationbase_germancreditrisk:latest
 ```
 
 ### Run the container
 ```bash
-docker run --rm [your-dockerhub-username]/activationbase_germancreditrisk:latest
+docker run --rm devangthaker/activationbase_germancreditrisk:latest
 ```
 
 ### Use with docker-compose

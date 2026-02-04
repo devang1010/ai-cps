@@ -7,7 +7,7 @@
 
 ---
 
-## 📋 Project Overview
+## Project Overview
 
 This project implements an AI-based system for classifying credit risk using the German Credit Risk dataset. The system predicts whether a person represents a good or bad credit risk based on various financial and personal attributes.
 
@@ -23,14 +23,14 @@ This repository is forked from [MarcusGrum/AI-CPS](https://github.com/MarcusGrum
 
 ---
 
-## 👥 Team Members
+## Team Members
 
 - **Devang Thaker**
 - **Krish Manvar**
 
 ---
 
-## 📊 Dataset Information
+## Dataset Information
 
 ### Source
 - **Original Dataset**: German Credit Data from GitHub repository
@@ -56,7 +56,7 @@ This repository is forked from [MarcusGrum/AI-CPS](https://github.com/MarcusGrum
 
 ---
 
-## 🚀 Project Structure
+## Project Structure
 ```
 AI-CPS/
 ├── code/
@@ -113,7 +113,7 @@ AI-CPS/
 
 ---
 
-## 🐳 Docker Images
+## Docker Images
 
 This project provides three Docker images published to Docker Hub for complete model deployment:
 
@@ -161,15 +161,15 @@ docker pull devangthaker/codebase_germancreditrisk:latest
 - Data: `activation_data.csv`
 
 **Features:**
-- ✅ Automatic model loading
-- ✅ Automatic predictions on startup
-- ✅ Beautiful formatted output with emojis
-- ✅ Confidence scores and probabilities
-- ✅ Error handling and diagnostics
+- Automatic model loading
+- Automatic predictions on startup
+- Beautiful formatted output with emojis
+- Confidence scores and probabilities
+- Error handling and diagnostics
 
 ---
 
-## 🔧 Usage
+## Usage
 
 ### Prerequisites
 - Docker installed and running
@@ -195,39 +195,31 @@ docker-compose up
 ```
 
 **Expected Output:**
-```
-✅ Learning Base: Data copied to shared volume
-✅ Knowledge Base: Models copied to shared volume
-✅ Code Base: Activation data copied
-⏳ Waiting for models to be ready...
+``` Learning Base: Data copied to shared volume Knowledge Base: Models copied to shared volume Code Base: Activation data copied
+Waiting for models to be ready...
 
 ======================================================================
-🤖 ANN MODEL PREDICTION
+ ANN MODEL PREDICTION
 ======================================================================
 
-📥 Loading ANN model...
-✅ Model loaded successfully!
+ Loading ANN model... Model loaded successfully!
+ Loading activation data... Loaded 1 sample(s)
+ Features used: ['Age', 'Job', 'Credit amount', 'Duration', ...]
+ Number of features: 9
 
-📊 Loading activation data...
-✅ Loaded 1 sample(s)
-
-📋 Features used: ['Age', 'Job', 'Credit amount', 'Duration', ...]
-📏 Number of features: 9
-
-🔮 Making predictions...
+ Making predictions...
 
 ======================================================================
-📈 PREDICTION RESULTS
+ PREDICTION RESULTS
 ======================================================================
 
 Sample 1:
-  Prediction: ✅ GOOD CREDIT
+  Prediction: GOOD CREDIT
   Probability: 0.8234
   Confidence: 82.34%
   Classification: Good
 
-======================================================================
-✅ ANN Prediction Complete!
+====================================================================== ANN Prediction Complete!
 ======================================================================
 ```
 
@@ -243,39 +235,30 @@ docker-compose up
 ```
 
 **Expected Output:**
-```
-✅ Learning Base: Data copied to shared volume
-✅ Knowledge Base: Models copied to shared volume
-✅ Code Base: Activation data copied
-⏳ Waiting for models to be ready...
+``` Learning Base: Data copied to shared volume Knowledge Base: Models copied to shared volume Code Base: Activation data copied
+ Waiting for models to be ready...
 
-======================================================================
-📊 OLS MODEL PREDICTION
+====================================================================== OLS MODEL PREDICTION
 ======================================================================
 
-📥 Loading OLS model...
-✅ Model loaded successfully!
+ Loading OLS model... Model loaded successfully!
+ Loading activation data... Loaded 1 sample(s)
+ Features used: ['Age', 'Job', 'Credit amount', 'Duration', ...]
+ Number of features: 9
 
-📊 Loading activation data...
-✅ Loaded 1 sample(s)
-
-📋 Features used: ['Age', 'Job', 'Credit amount', 'Duration', ...]
-📏 Number of features: 9
-
-🔮 Making predictions...
+ Making predictions...
 
 ======================================================================
-📈 PREDICTION RESULTS
+ PREDICTION RESULTS
 ======================================================================
 
 Sample 1:
-  Prediction: ✅ GOOD CREDIT
+  Prediction: GOOD CREDIT
   Probability: 0.7891
   Confidence: 78.91%
   Classification: Good
 
-======================================================================
-✅ OLS Prediction Complete!
+====================================================================== OLS Prediction Complete!
 ======================================================================
 ```
 
@@ -296,11 +279,11 @@ services:
 ```
 
 **Key Features:**
-- 🔄 Automatic data synchronization via shared volume
-- 🚀 Predictions run automatically on container startup
-- 📊 Real-time output in terminal
-- ✅ Models and data verified before predictions
-- 🎯 Clean separation between ANN and OLS deployments
+- Automatic data synchronization via shared volume
+- Predictions run automatically on container startup
+- Real-time output in terminal
+- Models and data verified before predictions
+- Clean separation between ANN and OLS deployments
 
 ### Manual Prediction Execution
 
@@ -342,7 +325,7 @@ docker exec ols_learningbase ls -lh /shared_data/learningBase/
 
 ---
 
-## 🤖 Models
+##  Models
 
 ### Artificial Neural Network (ANN)
 
@@ -409,15 +392,15 @@ Both models demonstrate strong performance, with the ANN slightly outperforming 
 
 ---
 
-## 📝 Project Workflow
+## Project Workflow
 
-### Subgoal 1: Git Usage ✅
+### Subgoal 1: Git Usage
 - Repository forked from MarcusGrum/AI-CPS
 - Project structure established
 - Multiple commits from both team members
 - All changes pushed to GitHub
 
-### Subgoal 2: Data Scraping and Preparation ✅
+### Subgoal 2: Data Scraping and Preparation
 - Data scraped from GitHub repository
 - Data cleaned (missing values, outliers, normalization)
 - Data split into training (80%) and test (20%) sets
@@ -428,13 +411,13 @@ Both models demonstrate strong performance, with the ANN slightly outperforming 
   - `test_data.csv`
   - `activation_data.csv`
 
-### Subgoal 3: Docker Images for Data ✅
+### Subgoal 3: Docker Images for Data
 - Docker images created (learningBase, knowledgeBase, codeBase)
 - Published to Docker Hub
 - README.md included with ownership, course info, and AGPL-3.0 license
 - External volume `ai_system` for data sharing
 
-### Subgoal 4: AI Model Development ✅
+### Subgoal 4: AI Model Development
 - Deep Neural Network (ANN) implemented using TensorFlow/Keras
 - Model architecture: 4 hidden layers with batch normalization and dropout
 - Training performed with comprehensive metrics tracking
@@ -445,7 +428,7 @@ Both models demonstrate strong performance, with the ANN slightly outperforming 
   - Scatter plots (actual vs predicted)
 - Training report generated with comprehensive documentation
 
-### Subgoal 5: OLS Model and Comparison ✅
+### Subgoal 5: OLS Model and Comparison
 - OLS regression model implemented using Statsmodels
 - Model saved in multiple formats (pickle and XML)
 - Testing routines implemented for validation
@@ -456,7 +439,7 @@ Both models demonstrate strong performance, with the ANN slightly outperforming 
   - Detailed comparison dashboard
 - Training report with comparison analysis
 
-### Subgoal 6: Model Docker Provision ✅
+### Subgoal 6: Model Docker Provision
 - Three Docker images created and published:
   
   **Learning Base Image**:
@@ -475,7 +458,7 @@ Both models demonstrate strong performance, with the ANN slightly outperforming 
 - Each image tested and verified
 - Images published to Docker Hub
 
-### Subgoal 7: Docker Builds and Docker-Compose Utilization ✅
+### Subgoal 7: Docker Builds and Docker-Compose Utilization
 
 Created separate Docker Compose configurations with **automatic prediction execution**:
 
@@ -496,14 +479,14 @@ Created separate Docker Compose configurations with **automatic prediction execu
 - Network: `ols_network`
 
 **Key Features:**
-- ✅ Predictions execute automatically on `docker-compose up`
-- ✅ No manual intervention required
-- ✅ Real-time output visible in terminal
-- ✅ Error handling and diagnostics built-in
-- ✅ Clean separation between ANN and OLS deployments
-- ✅ Professional output formatting with emojis and clear sections
-- ✅ Model verification before predictions
-- ✅ Both deployments use the same shared codebase image
+- Predictions execute automatically on `docker-compose up`
+- No manual intervention required
+- Real-time output visible in terminal
+- Error handling and diagnostics built-in
+- Clean separation between ANN and OLS deployments
+- Professional output formatting with emojis and clear sections
+- Model verification before predictions
+- Both deployments use the same shared codebase image
 
 **Innovation:**
 Unlike typical Docker deployments that only store models, this implementation includes **intelligent prediction engines** that automatically:
@@ -515,7 +498,7 @@ Unlike typical Docker deployments that only store models, this implementation in
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ### Automated Verification
 
@@ -569,7 +552,7 @@ docker-compose down
 
 ---
 
-## 🎯 Key Innovations
+## Key Innovations
 
 ### 1. Automatic Prediction Execution
 - Models automatically make predictions on container startup
@@ -601,19 +584,19 @@ docker-compose down
 
 ---
 
-## 📄 License
+## License
 
 This project is licensed under the **AGPL-3.0 License**.
 
 ---
 
-## 📧 Contact
+## Contact
 
 For questions or issues, please contact through the University of Potsdam course portal.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **Course**: M. Grum: Advanced AI-based Application Systems
 - **Institution**: Junior Chair for Business Information Science, esp. AI-based Application Systems, University of Potsdam
@@ -622,7 +605,7 @@ For questions or issues, please contact through the University of Potsdam course
 
 ---
 
-## 📚 References
+## References
 
 - TensorFlow/Keras Documentation: https://www.tensorflow.org/
 - Statsmodels Documentation: https://www.statsmodels.org/
@@ -633,30 +616,30 @@ For questions or issues, please contact through the University of Potsdam course
 
 ---
 
-## 🎯 Project Status
+## Project Status
 
-**Current Status:** ✅ All Subgoals Complete (1-7) + Automatic Prediction System
+**Current Status:** All Subgoals Complete (1-7) + Automatic Prediction System
 
 All project requirements have been successfully implemented, tested, and verified. The system now includes:
-- ✅ Complete data pipeline (scraping, preparation, splitting)
-- ✅ Two trained models (ANN and OLS)
-- ✅ Three Docker images published to Docker Hub
-- ✅ Separate Docker Compose files for ANN and OLS deployments
-- ✅ **Automatic prediction execution on container startup**
-- ✅ Beautiful formatted output with confidence scores
-- ✅ Professional error handling and diagnostics
-- ✅ Production-ready deployment architecture
+- Complete data pipeline (scraping, preparation, splitting)
+- Two trained models (ANN and OLS)
+- Three Docker images published to Docker Hub
+- Separate Docker Compose files for ANN and OLS deployments
+- **Automatic prediction execution on container startup**
+- Beautiful formatted output with confidence scores
+- Professional error handling and diagnostics
+- Production-ready deployment architecture
 
 **Perfect for:**
-- 🎓 Course demonstrations
-- 🔬 Research presentations  
-- 🚀 Production deployments
-- 📊 Automated ML pipelines
-- 🧪 Model validation workflows
+- Course demonstrations
+- Research presentations  
+- Production deployments
+- Automated ML pipelines
+- Model validation workflows
 
 ---
 
-## 🚀 Quick Demo Commands
+## Quick Demo Commands
 
 ```bash
 # One-time setup

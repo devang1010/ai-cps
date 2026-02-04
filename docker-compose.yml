@@ -10,9 +10,9 @@ services:
       sh -c "rm -rf /shared_data/* && 
              cp -r /tmp/learningBase /shared_data/ &&
              echo '=============================================' &&
-             echo '🚀 Learning Base Container Started' &&
+             echo 'Learning Base Container Started' &&
              echo '=============================================' &&
-             echo '✅ Learning Base: Data copied' &&
+             echo 'Learning Base: Data copied' &&
              tail -f /dev/null"
     restart: unless-stopped
     networks:
@@ -28,9 +28,9 @@ services:
     command: >
       sh -c "cp -r /tmp/knowledgeBase /shared_data/ &&
              echo '=============================================' &&
-             echo '🧠 Knowledge Base Container Started' &&
+             echo 'Knowledge Base Container Started' &&
              echo '=============================================' &&
-             echo '✅ Knowledge Base: Models copied' &&
+             echo 'Knowledge Base: Models copied' &&
              ls -lh /shared_data/knowledgeBase/ &&
              tail -f /dev/null"
     restart: unless-stopped
@@ -47,15 +47,15 @@ services:
     command: >
       sh -c "cp -r /tmp/activationBase /shared_data/ &&
              echo '=============================================' &&
-             echo '📦 Code Base Container Started' &&
+             echo 'Code Base Container Started' &&
              echo '=============================================' &&
-             echo '✅ Activation data copied' &&
+             echo 'Activation data copied' &&
              echo '' &&
              sleep 5 &&
-             echo '🤖 Running ANN Predictions...' &&
+             echo 'Running ANN Predictions...' &&
              python /scripts/predict_ann.py &&
              echo '' &&
-             echo '📊 Running OLS Predictions...' &&
+             echo 'Running OLS Predictions...' &&
              python /scripts/predict_ols.py &&
              echo '=============================================' &&
              tail -f /dev/null"

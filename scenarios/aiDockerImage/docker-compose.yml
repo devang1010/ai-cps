@@ -10,9 +10,9 @@ services:
       sh -c "rm -rf /shared_data/* && 
              cp -r /tmp/learningBase /shared_data/ &&
              echo '=============================================' &&
-             echo '🚀 ANN Learning Base Started' &&
+             echo 'ANN Learning Base Started' &&
              echo '=============================================' &&
-             echo '✅ Data copied' &&
+             echo 'Data copied' &&
              tail -f /dev/null"
     networks:
       - ann_network
@@ -27,9 +27,9 @@ services:
     command: >
       sh -c "cp -r /tmp/knowledgeBase /shared_data/ &&
              echo '=============================================' &&
-             echo '🧠 ANN Knowledge Base Started' &&
+             echo 'ANN Knowledge Base Started' &&
              echo '=============================================' &&
-             echo '✅ Models copied' &&
+             echo 'Models copied' &&
              tail -f /dev/null"
     networks:
       - ann_network
@@ -44,12 +44,12 @@ services:
     command: >
       sh -c "cp -r /tmp/activationBase /shared_data/ &&
              echo '=============================================' &&
-             echo '📦 ANN Code Base Started' &&
+             echo 'ANN Code Base Started' &&
              echo '=============================================' &&
-             echo '✅ Activation data copied' &&
+             echo 'Activation data copied' &&
              sleep 5 &&
              echo '' &&
-             echo '🤖 Running ANN Predictions...' &&
+             echo 'Running ANN Predictions...' &&
              python /scripts/predict_ann.py &&
              echo '=============================================' &&
              tail -f /dev/null"
