@@ -1,81 +1,72 @@
 version: '3.8'
 
 services:
-  # Learning Base Service - Contains training and test data
   learningbase:
     image: devangthaker/learningbase_germancreditrisk:latest
     container_name: germancredit_learningbase
     volumes:
-      - ai_system:/tmp
+      - ai_system:/shared_data
     command: >
-      sh -c "echo '=============================================' &&
+      sh -c "rm -rf /shared_data/* && 
+             cp -r /tmp/learningBase /shared_data/ &&
+             echo '=============================================' &&
              echo '🚀 Learning Base Container Started' &&
              echo '=============================================' &&
-             echo '' &&
-             echo '📂 Directory Structure:' &&
-             ls -laR /tmp/learningBase &&
-             echo '' &&
-             echo '📊 Training Data Info:' &&
-             ls -lh /tmp/learningBase/train/ &&
-             echo '' &&
-             echo '📊 Validation Data Info:' &&
-             ls -lh /tmp/learningBase/validation/ &&
-             echo '' &&
-             echo '✅ Learning Base ready for AI training' &&
-             echo '=============================================' &&
+             echo '✅ Learning Base: Data copied' &&
              tail -f /dev/null"
     restart: unless-stopped
     networks:
       - ai_network
 
-  # Knowledge Base Service - Contains trained AI/OLS models
   knowledgebase:
     image: devangthaker/knowledgebase_germancreditrisk:latest
     container_name: germancredit_knowledgebase
+    depends_on:
+      - learningbase
     volumes:
-      - ai_system:/tmp
+      - ai_system:/shared_data
     command: >
-      sh -c "echo '=============================================' &&
+      sh -c "cp -r /tmp/knowledgeBase /shared_data/ &&
+             echo '=============================================' &&
              echo '🧠 Knowledge Base Container Started' &&
              echo '=============================================' &&
-             echo '' &&
-             echo '📂 Available Models:' &&
-             ls -lh /tmp/knowledgeBase/ &&
-             echo '' &&
-             echo '✅ Knowledge Base ready' &&
-             echo '=============================================' &&
+             echo '✅ Knowledge Base: Models copied' &&
+             ls -lh /shared_data/knowledgeBase/ &&
              tail -f /dev/null"
     restart: unless-stopped
     networks:
       - ai_network
 
-  # Code Base Service - Contains activation data for testing
   codebase:
     image: devangthaker/codebase_germancreditrisk:latest
     container_name: germancredit_codebase
+    depends_on:
+      - knowledgebase
     volumes:
-      - ai_system:/tmp
+      - ai_system:/shared_data
     command: >
-      sh -c "echo '=============================================' &&
+      sh -c "cp -r /tmp/activationBase /shared_data/ &&
+             echo '=============================================' &&
              echo '📦 Code Base Container Started' &&
              echo '=============================================' &&
+             echo '✅ Activation data copied' &&
              echo '' &&
-             echo '📂 Activation Data Files:' &&
-             ls -lh /tmp/activationBase/ &&
+             sleep 5 &&
+             echo '🤖 Running ANN Predictions...' &&
+             python /scripts/predict_ann.py &&
              echo '' &&
-             echo '✅ Code Base ready for model testing' &&
+             echo '📊 Running OLS Predictions...' &&
+             python /scripts/predict_ols.py &&
              echo '=============================================' &&
              tail -f /dev/null"
     restart: unless-stopped
     networks:
       - ai_network
 
-# Shared external volume for data access
 volumes:
   ai_system:
     external: true
 
-# Network for inter-container communication
 networks:
   ai_network:
     driver: bridge

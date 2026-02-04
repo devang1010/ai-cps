@@ -9,8 +9,10 @@ services:
     command: >
       sh -c "rm -rf /shared_data/* && 
              cp -r /tmp/learningBase /shared_data/ &&
-             echo '✅ OLS Learning Base: Data copied to shared volume' &&
-             ls -lh /shared_data/learningBase/ &&
+             echo '=============================================' &&
+             echo '🚀 OLS Learning Base Started' &&
+             echo '=============================================' &&
+             echo '✅ Data copied' &&
              tail -f /dev/null"
     networks:
       - ols_network
@@ -24,10 +26,10 @@ services:
       - ai_system:/shared_data
     command: >
       sh -c "cp -r /tmp/knowledgeBase /shared_data/ &&
-             echo '✅ OLS Knowledge Base: Models copied to shared volume' &&
-             echo 'OLS Model Files:' &&
-             ls -lh /shared_data/knowledgeBase/currentOlsSolution.pkl &&
-             ls -lh /shared_data/knowledgeBase/currentOlsSolution.xml &&
+             echo '=============================================' &&
+             echo '🧠 OLS Knowledge Base Started' &&
+             echo '=============================================' &&
+             echo '✅ Models copied' &&
              tail -f /dev/null"
     networks:
       - ols_network
@@ -41,8 +43,15 @@ services:
       - ai_system:/shared_data
     command: >
       sh -c "cp -r /tmp/activationBase /shared_data/ &&
-             echo '✅ OLS Code Base: Activation data copied to shared volume' &&
-             ls -lh /shared_data/activationBase/activation_data.csv &&
+             echo '=============================================' &&
+             echo '📦 OLS Code Base Started' &&
+             echo '=============================================' &&
+             echo '✅ Activation data copied' &&
+             sleep 5 &&
+             echo '' &&
+             echo '📊 Running OLS Predictions...' &&
+             python /scripts/predict_ols.py &&
+             echo '=============================================' &&
              tail -f /dev/null"
     networks:
       - ols_network
